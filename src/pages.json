@@ -1,0 +1,112 @@
+{
+	"pages": [
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/switch/switch",
+			"style": {
+				"navigationBarTitleText": "开关"
+			}
+		},
+		{
+			"path": "pages/recharge/recharge",
+			"style": {
+				"navigationBarTitleText": "充值"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/components/personalInfo/personalInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/components/myAccount/myaccount",
+			"style": {
+				"navigationBarTitleText": "我的账户"
+			}
+		},
+		{
+			"path": "pages/components/bankCard/bankCard",
+			"style": {
+				"navigationBarTitleText": "银行卡"
+			}
+		},
+		{
+			"path": "pages/components/bankCard/addCard",
+			"style": {
+				"navigationBarTitleText": "添加银行卡"
+			}
+		},
+		{
+			"path": "pages/components/aboutPassword/forgotPassword",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
+			}
+		},
+		{
+			"path": "pages/components/aboutPassword/changePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "tcpay",
+		"navigationBarBackgroundColor": "#d81e06",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#d81e06",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/home/index",
+				"iconPath": "static/images/tabIcon/home.png",
+				"selectedIconPath": "static/images/tabIcon/home-select.png",
+				"text": "首页"
+			}, {
+				"pagePath": "pages/switch/switch",
+				"iconPath": "static/images/tabIcon/银行卡.png",
+				"selectedIconPath": "static/images/tabIcon/银行卡-select.png",
+				"text": "开关"
+			},
+			{
+				"pagePath": "pages/recharge/recharge",
+				"iconPath": "static/images/tabIcon/充值.png",
+				"selectedIconPath": "static/images/tabIcon/充值-select.png",
+				"text": "充值"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/images/tabIcon/我的.png",
+				"selectedIconPath": "static/images/tabIcon/我的-select.png",
+				"text": "我的"
+			}
+		]
+	}
+}
