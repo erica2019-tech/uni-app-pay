@@ -132,11 +132,15 @@
 									uni.navigateTo({
 										url: '../login/login',
 										success: res => {
-											console.log('退出成功!');
-										    uni.showToast({
-											title: '验证码已发送',
-											duration: 2000
-										    });
+											console.log(res);
+											if(res.statusCode == 200){
+												console.log('退出成功!');
+												uni.showToast({
+													title: '退出成功',
+													duration: 2000
+												});
+											}
+											
 										},
 										
 									});

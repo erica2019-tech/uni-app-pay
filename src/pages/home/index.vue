@@ -10,17 +10,17 @@
 					<div class="card-body">
 						<div class="row gathering-item">
 							<div class="col-sm-8 offset-sm-4">
-								<label>今日收款金额</label> <span>{{todayReceiveOrderSituation != null ? todayReceiveOrderSituation.paidAmount : 0}}元</span>
+								<label>今日收款金额</label> <span>{{(todayReceiveOrderSituation || {}).totalAmount ? todayReceiveOrderSituation.totalAmount : 0}}元</span>
 							</div>
 						</div>
 						<div class="row gathering-item">
 							<div class="col-sm-8 offset-sm-4">
-								<label>今日收款笔数</label> <span>{{todayReceiveOrderSituation != null ? todayReceiveOrderSituation.paidOrderNum : 0}}笔</span>
+								<label>今日收款笔数</label> <span>{{(todayReceiveOrderSituation || {}).orderCount ? todayReceiveOrderSituation.orderCount : 0}}笔</span>
 							</div>
 						</div>
 						<div class="row gathering-item">
 							<div class="col-sm-8 offset-sm-4">
-								<label>今日奖励金</label> <span>{{todayReceiveOrderSituation != null ? todayReceiveOrderSituation.bounty : 0}}元</span>
+								<label>今日奖励金</label> <span>{{(todayReceiveOrderSituation || {}).totalIncome ? todayReceiveOrderSituation.totalIncome : 0}}元</span>
 							</div>
 						</div>
 						<!-- <div class="row gathering-item" v-show="accountType == 'agent'">
@@ -59,7 +59,7 @@
 				</div>
 				<div class="card" v-show="showTodayBountyRankFlag">
 					<div class="card-header">
-						<span>今日奖励金排行榜</span><span class="float-right" style="color: #dc3545; font-weight: bold;" @tap="showTotalTop10BountyRank">今日排行榜&gt;</span>
+						<span>昨日奖励金排行榜</span><span class="float-right" style="color: #dc3545; font-weight: bold;" @tap="showTotalTop10BountyRank">昨日排行榜&gt;</span>
 					</div>
 					<div class="card-body">
 						<table class="table table-sm bounty-ranking-table">
@@ -82,7 +82,8 @@
 				</div>
 				<div class="card" v-show="!showTodayBountyRankFlag">
 					<div class="card-header">
-						<span>累计奖励金排行榜</span><span class="float-right" style="color: #dc3545; font-weight: bold;" @tap="showTodayTop10BountyRank">累计排行榜&gt;</span>
+						<span>累计奖励金排行榜</span>
+						<span class="float-right" style="color: #dc3545; font-weight: bold;" @tap="showTodayTop10BountyRank">累计排行榜&gt;</span>
 					</div>
 					<div class="card-body">
 						<table class="table table-sm bounty-ranking-table">
@@ -120,8 +121,8 @@
 				isLoggedInFlag: true,
 				// accountType: '',
 				showTodayReceiveOrderSituationFlag: true,
-				todayReceiveOrderSituation: {},
-				totalReceiveOrderSituation: {},
+				todayReceiveOrderSituation: {}, //今日接单情况
+				totalReceiveOrderSituation: {}, //累计接单情况
 				showTodayBountyRankFlag: true,
 				todayBountyRanks: [],
 				totalBountyRanks: []
@@ -132,6 +133,8 @@
 			this.loadTodayReceiveOrderSituation();
 			//  默认加载今日排行榜
 			this.loadTodayTop10BountyRank();
+			// 显示累计接单情况
+			this.showTotalReceiveOrderSituation();
 		},
 		mounted() {
 			// let inviteCode = option['inviteCode'];
@@ -160,7 +163,11 @@
 			//  加载今日接单情况
 			loadTodayReceiveOrderSituation() {
 				https.get(`statistical/todayReceiveOrders?scalperId=${this.scalperId}`).then(res => {
-					// console.log(res);
+				 let {statusCode} = res;
+				 if(statusCode == 200) {
+					let {data} = res;
+					this.todayReceiveOrderSituation = data[0];
+				 }
 				})
 			},
 			//  加载今日排行榜
@@ -184,7 +191,7 @@
 			},
 			//  显示累计排行榜
 			showTotalTop10BountyRank: function() {
-				this.showTodayBountyRankFlag = false;
+				// this.showTodayBountyRankFlag = false;
 				this.loadTotalTop10BountyRank();
 			},
 			// 显示今日接单情况
@@ -199,14 +206,13 @@
 			},
 			//  加载累计接单情况
 			loadTotalReceiveOrderSituation() {
-				uni.request({
-					url: '',
-					method: 'GET',
-					data: {},
-					success: res => {},
-					fail: () => {},
-					complete: () => {}
-				});
+				https.get(`statistical/todayReceiveOrders?scalperId=${this.scalperId}`).then(res => {
+				 let {statusCode} = res;
+				 if(statusCode == 200) {
+					let {data} = res;
+					this.todayReceiveOrderSituation = data[0];
+				 }
+				})
 			},
 			//  加载累计排行榜
 			loadTotalTop10BountyRank() {

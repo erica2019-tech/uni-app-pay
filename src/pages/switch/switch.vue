@@ -1,16 +1,19 @@
 <template>
 	<view class="content">
-		<ul class="list-group" v-if="BindCardStatus == 400?false:true">
-			<li class="list-group-item" v-for="(item,index) in cardList" :key="index" @tap="editCard('id')">
+		<ul class="list-group" v-if="BindCardStatus == 400? false :true">
+			<li class="list-group-item" v-for="(item,index) in cardList" :key="index"> 
+			<!-- #ifdef @tap="editCard('id')" -->
+			<!-- #endif -->
 				<div class="panel panel-danger">
 				  <div class="panel-body ovfl">
-				   <text class="txlf">{{item.name}}</text>  
-					<span class="txrg">
-						<switch color='#0f0' @change="statusToggle" />
+				   <text class="txlf">{{item.accountName}}</text>  
+					<span class="txrg" >
+						<switch color='#0f0' @change="statusToggle($event, item.id )" />
 					</span> 
 				  </div>
-				  <div class="panel-footer">
-					 {{item.num}}
+				  <div class="panel-footer switch-panel-footer">
+					<span>{{item.bankCode}}</span>
+				    <span>{{item.cardNo}}</span> 
 				  </div>
 				</div>
 			</li>
@@ -50,23 +53,40 @@
 		methods: {
 			getBankCard(){
 				https.get('bankcard?status=succeeded').then(res=>{
-					console.log(res)
+					console.log(res);
+					const {data} = res;
+					this.cardList = data || [];
 				})
 			
 			},
-			statusToggle(e){
-				uni.request({
-					url: this.$hostUrl + `bankcard/${id}/${e.target.value}`,
-					method: 'PUT',
-					header: {Authorization:'Bearer ' + localStorage.getItem('token')},
-					success: res => {
-						// console.log(e.target.value)
-						console.log(res)
-					},
-					fail: () => {},
-					complete: () => {}
-				});
+
+			statusToggle(e, id){
+				console.log(this.$hostUrl);
+				https.put(`bankcard/${id}/${e.target.value}`).then(res => {
+					console.log(e);
+					var {statusCode} = res;
+					if(statusCode == 400) {
+						uni.showToast({
+							title: '当前未充值保证金',
+							duration: 2000,
+							icon: 'none',
+						});
+					}
+					e.stopPropagation()
+				})
+				// uni.request({
+				// 	url: this.$hostUrl + `bankcard/${id}/${e.target.value}`,
+				// 	method: 'PUT',
+				// 	header: {Authorization:'Bearer ' + localStorage.getItem('token'						)},
+				// 	success: res => {
+				// 		// console.log(e.target.value)
+				// 		console.log(res)
+				// 	},
+				// 	fail: () => {},
+				// 	complete: () => {}
+				// });
 			}
+			
 			
 		}
 	}
@@ -107,12 +127,16 @@
 	
 	.panel-body .txlf {
 			float: left;
-		}
+	}
 		
-		.panel-body .txrg {
-			float: right;
-		}
-	.ovfl {
-		overflow: hidden;
-		}
+	.panel-body .txrg {
+		float: right;
+	}
+.ovfl {
+	overflow: hidden;
+	}
+    .switch-panel-footer {
+		display: flex;
+		justify-content: space-between;
+	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<div class="container login-container">
-			<form :model="ruleForm" ref="ruleForm">
+			<form class="form" :model="ruleForm" ref="ruleForm">
 				<view class="uni-form-item uni-column form-group">
 					<view class="title">用户名</view>
 					<input type="text" required class="uni-input form-control" name="account" placeholder="请输入手机号" v-model="ruleForm.account" />
@@ -111,5 +111,16 @@
 	.margin10 a {
 		color: #000000;
 	}
-
+    /* .container {
+		padding-right: 2rem;
+	} */
+	/* .form {
+		width: 100%;
+	}
+	.btn {
+		width: 100%;
+	} */
+	/* .uni-input {
+		height: 20rpx;
+	} */
 </style>

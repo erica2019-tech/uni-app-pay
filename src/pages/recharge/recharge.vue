@@ -62,9 +62,13 @@
 				index: 0,
 				// time: '12:01'
 				amount:'',
-				bankCardNo:''
+				bankCardNo:'',
+				cardList: [],
 				
 			}
+		},
+		onShow(){
+			this.getBankCard()   //进入该页面即发送请求
 		},
 		// computed: {
 		//     startDate() {
@@ -100,6 +104,14 @@
 				this.index = e.target.value
 				console.log(this.array[this.index])
 				// this.$set(this.ruleForm,this.ruleForm.bankCardNo,this.array[this.index])
+			
+			},
+			getBankCard(){
+				https.get('bankcard?status=succeeded').then(res=>{
+					console.log(res);
+					const {data} = res;
+					this.cardList = data || [];
+				});
 			
 			},
 			// bindTimeChange: function(e) {

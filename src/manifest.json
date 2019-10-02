@@ -1,7 +1,7 @@
 {
-    "name" : "",
-    "appid" : "",
-    "description" : "",
+    "name" : "tcpay",
+    "appid" : "__UNI__C17DE07",
+    "description" : "pay",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
