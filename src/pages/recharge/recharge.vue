@@ -10,8 +10,8 @@
 							当前选择
 						</view>
 						<view class="uni-list-cell-db">
-							<picker @change="bindPickerChange" :value="index" :range="array">
-								<view class="uni-input" v-model="bankCardNo">{{array[index]}}</view>
+							<picker @change="bindPickerChange" :value="index" :range="cardList" range-key="cardNo">
+								<view class="uni-input" v-model="bankCardNo">{{(cardList[index] || {}).cardNo}}</view>
 							</picker>
 						</view>
 					</view>
@@ -31,7 +31,7 @@
                                 <button type="default" @tap="cancle">取消</button>
             </view> -->
             
-			<button type="button" class="btn btn-md btn-block change-btn" @tap="submit('ruleForm')">提交充值</button>
+			<button type="button" class="btn btn-md btn-block change-btn" @tap="submit">提交充值</button>
 			
 			<!-- <view class="uni-title uni-common-pl">充值账户&充值金额</view>
 	        <view class="uni-list">
@@ -58,7 +58,6 @@
 		data() {
 			return {
 				// title: 'picker',
-				array: ['建行123', '工行456', '农行345', '中行789'],
 				index: 0,
 				// time: '12:01'
 				amount:'',
@@ -82,7 +81,7 @@
 			submit(){
 				https.post('deposits',{
 					amount: this.amount,
-					bankCardNo: this.array[this.index]
+					bankCardNo: this.bankCardNo
 				}).then(res=>{
 					console.log(res)
 					if(res.statusCode == 200){
@@ -100,9 +99,10 @@
 				})
 			},
 			bindPickerChange: function(e) {
-				console.log(e.target.value)
-				this.index = e.target.value
-				console.log(this.array[this.index])
+				console.log(e.target)
+				this.index = e.target.value;
+				console.log(this.cardList[this.index ]);
+				this.bankCardNo = (this.cardList[this.index ] || {}).cardNo;
 				// this.$set(this.ruleForm,this.ruleForm.bankCardNo,this.array[this.index])
 			
 			},
@@ -110,10 +110,15 @@
 				https.get('bankcard?status=succeeded').then(res=>{
 					console.log(res);
 					const {data} = res;
-					this.cardList = data || [];
+					this.cardList = data;
+					this.bankCardNo = (data[0] || {}).cardNo;
 				});
 			
 			},
+			
+			onAmountChange: function(e) {
+				
+			}
 			// bindTimeChange: function(e) {
 			//     this.time = e.target.value
 			// }

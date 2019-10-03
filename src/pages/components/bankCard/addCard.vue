@@ -4,7 +4,9 @@
 			<form :model="ruleForm" ref="ruleForm">
 				<view class="uni-form-item uni-column form-group">
 					<view class="title">开户银行</view>
-					<input type="text" required class="uni-input form-control" name="bank" placeholder="仅支持以下银行..." v-model="ruleForm.bank" />
+						<picker @change="bindPickerChange" :value="index" :range="cardList" range-key="name">
+							<view class="uni-input" v-model="ruleForm.bank">{{(cardList[index] || {}).name}}</view>
+							</picker>
 				</view>
 				<view class="uni-form-item uni-column form-group">
 					<view class="title">开户支行</view>
@@ -44,7 +46,7 @@
 				</view>
 				<view class="uni-form-item uni-column form-group mgtp">
 					<!-- 上个页面传过来的电话号码bug -->
-					<view class="title">验证码&nbsp;&nbsp;{{ruleForm.registerPhone}}</view>  
+					<view class="title">手机号&nbsp;{{ruleForm.registerPhone}}</view>  
 					<div class="input-group">
 						<input type="text" required class="uni-input form-control" name="verificationCode" placeholder="请输入六位验证码" v-model="ruleForm.verificationCode">
 						<span class="input-group-btn">
@@ -55,7 +57,7 @@
 				  <!-- 隐藏域 -->
 				<!-- <input type="hidden" name="idNo" value="{{idNo}}" />   -->
 				<button type="button" class="btn btn-md btn-block change-btn" @tap="bindBankInfo('ruleForm')">确认添加</button>
-				<button type="button" class="btn btn-light btn-md btn-block" @tap="hideEditBankInfoPage">返回</button>
+<!-- 				<button type="button" class="btn btn-light btn-md btn-block" @tap="hideEditBankInfoPage">返回</button> -->
 			</form>
 		</div>
 	</view>
@@ -69,12 +71,13 @@
 			return {
 				// editBankInfoFlag: true,
 				title: '获取验证码', // 按钮标题
+				index: 0,
 				count: 300,  //  倒计时时长
 				isCountDown: false,  //  是否开始倒计时
 				timer: null,  //  定时器
 				ruleForm: {
 					accountName: '',
-					bank: '',
+					bank: 'CCB',
 					bankBranch: '',
 					cardNo: '',
 					idNo: '',
@@ -83,19 +86,26 @@
 					confirmOnlineBankingPassword:'',
 					phone: '',
 					verificationCode: '',
-					registerPhone:'18637471808'
-				}
+					registerPhone:''
+				},
+			    cardList: [{name: '中国建设银行', bank: 'CCB'}, 
+				{name: '中国农业银行', bank: 'ABC'}, 
+				{name: '中国工商银行', bank: 'ICBC'}],
 			}
 		},
 		onLoad(options){
 			console.log(options.contactPhone);
 		},
-		mounted(){
+		mounted() {
 		
+		},
+		onShow() {
+			this.getPhoneNumber();
 		},
 		methods: {
 			getCode() {
-				https.get(`get/verificationCode/${this.ruleForm.phone}`).then(res => {
+				console.log(this.ruleForm.phone);
+				https.get(`get/verificationCode/${this.ruleForm.registerPhone}`).then(res => {
 					console.log(res);
 					if(res.statusCode == 200) {
 						uni.showToast({
@@ -140,10 +150,24 @@
 				// 	fail: () => {}
 				// });
 			},
+			// 获取验证码
+			getPhoneNumber: function(e) {
+				https.get(`get`).then(res => {
+					console.log(res);
+					const { phone } = (res || {}).data;
+					console.log(phone);
+					this.$set(this.ruleForm, 'registerPhone', phone);
+					console.log(this.ruleForm);
+				})
+			},
+			//银行选项
+			bindPickerChange: function(e) {
+				this.index = e.target.value
+				var bank = (this.cardList[this.index] || {}).name;
+				this.$set(this.ruleForm, 'bank', bank);
+			},
 			bindBankInfo() {
-				// https.post('bankcard/create',ruleForm).then(res => {
-				// 	console.log(res);
-				// })
+				console.log(this.ruleForm);
 				uni.request({
 					url: this.$hostUrl + 'bankcard/create',
 					method: 'POST',
@@ -161,7 +185,11 @@
 								url: './bankCard'
 							});
 						}else {
-							console.log('添加失败!');
+						uni.showToast({
+							icon: 'none',
+							title: '提交失败',
+							duration: 2000
+						});
 						}
 					},
 					fail: (err) => {

@@ -133,8 +133,6 @@
 			this.loadTodayReceiveOrderSituation();
 			//  默认加载今日排行榜
 			this.loadTodayTop10BountyRank();
-			// 显示累计接单情况
-			this.showTotalReceiveOrderSituation();
 		},
 		mounted() {
 			// let inviteCode = option['inviteCode'];

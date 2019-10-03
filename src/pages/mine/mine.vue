@@ -128,11 +128,9 @@
 								method: 'GET',
 								header: {Authorization:'Bearer ' + token},
 								success: res => {
-									console.log(res);
 									uni.navigateTo({
 										url: '../login/login',
 										success: res => {
-											console.log(res);
 											if(res.statusCode == 200){
 												console.log('退出成功!');
 												uni.showToast({

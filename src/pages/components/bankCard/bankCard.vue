@@ -5,11 +5,16 @@
 				<li class="list-group-item" v-for="(item,index) in cardList" :key="index" @tap="editCard('id')">
 					<div class="panel panel-danger">
 					  <div class="panel-body disFl">
-					   <text class="txlf">{{item.name}}</text>  
-						<text class="txrg">{{item.status}}</text> 
+					   <text class="txlf">{{item.accountName}}</text>  
+						<text class="txrg">{{status[item.status]}}</text> 
 					  </div>
-					  <div class="panel-footer">
-						 {{item.num}}
+					  <div class="panel-footer  switch-panel-footer">
+						<span>{{item.bankCode}}</span>
+						<span>{{item.cardNo}}</span> 
+					  </div>
+					  <div class='btn-container'>
+						<button  class='bank-btn' type="default" size="mini">编辑</button>
+						<button  class='bank-btn' type="warn" size="mini">删除</button>
 					  </div>
 					</div>
 				</li>
@@ -49,19 +54,12 @@
 	export default {
 		data() {
 			return {
-				cardList: [{
-						id: 1,
-						name: '建设银行',
-						num: '123456',
-						status: '审核中'
-					},
-					{
-						id: 2,
-						name: '工商银行',
-						num: '987654',
-						status: '审核通过'
-					},
-				],
+				cardList: [],
+				status: {
+					confirm: '审核确认',
+					succeeded: '审核通过',
+					failed: '审核未通过',
+				},
 				dialogFormVisible: false,
 				editForm: {
 					id: '',
@@ -73,12 +71,20 @@
 			}
 		},
 		onLoad(option) {
-			// console.log(option);
+			this.getBankCard();
 		},
 		mounted(option) {
 			// console.log(option);
 		},
 		methods: {
+			getBankCard(){
+				https.get('bankcard?status').then(res=>{
+					console.log(res);
+					const {data} = res;
+					this.cardList = data || [];
+				})
+			
+			},
 			editCard(id) {
 				https.get(`bankcard/getOne/${this.cardList[0].id}`).then(res => {
 					console.log(res);
@@ -164,5 +170,8 @@
    .disFl {
 		overflow: hidden;
 	}
-	.dialog {}
+    .switch-panel-footer {
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
