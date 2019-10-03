@@ -37,7 +37,7 @@
 	export default {
 		data() {
 			return {
-				// value:'',
+				value:'',
 				ruleForm: {
 					account: "",
 					password: "",
@@ -58,7 +58,7 @@
 					data: ruleFormJson,
 					method: "POST",
 					success: res => {
-						console.log(res.data);
+						console.log(res);
 						let {data,statusCode} = res
 						if(statusCode == 200){
 							localStorage.setItem('token', data.idToken)

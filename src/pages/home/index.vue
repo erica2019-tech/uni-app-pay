@@ -5,7 +5,7 @@
 			<div class="page-body">
 				<div class="card" v-show="isLoggedInFlag && showTodayReceiveOrderSituationFlag">
 					<div class="card-header">
-						<span>今日接单情况</span><span class="float-right" style="color: #dc3545; font-weight: bold;" @tap="showTotalReceiveOrderSituation">今日接单情况&gt;</span>
+						<span>今日接单情况</span><span class="float-right" style="color: #dc3545; font-weight: bold;">今日接单情况&gt;</span>
 					</div>
 					<div class="card-body">
 						<div class="row gathering-item">

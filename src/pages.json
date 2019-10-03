@@ -61,6 +61,12 @@
 			}
 		},
 		{
+			"path": "pages/components/bankCard/editCard",
+			"style": {
+				"navigationBarTitleText": "编辑银行卡"
+			}
+		},
+		{
 			"path": "pages/components/aboutPassword/forgotPassword",
 			"style": {
 				"navigationBarTitleText": "忘记密码"
@@ -72,7 +78,13 @@
 				"navigationBarTitleText": "修改密码"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/components/contact/contact",
+            "style" : {
+				"navigationBarTitleText": "联系方式"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "tcpay",

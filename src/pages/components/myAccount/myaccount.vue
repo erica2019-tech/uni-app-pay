@@ -65,6 +65,7 @@
 				scalperId: 0,
 				size: 20,
 				orderList: [],
+				threeDaysTotal: 0,
 			}
 			
 		},
@@ -76,26 +77,47 @@
 			searchThreeDaysDetail: function(e) {
 				this.showThreeDays = true;
 				https.get(`get`).then(res => {
-					console.log('sanridingdan');
-					console.log(res);
 					const { id } = (res || {}).data;
 					this.scalperId = id;
 					return res;
 				}).then( res=> {
 					if(res.statusCode == 200) {
-			https.get(`statistical/threeDaysOrdersDetail?scalperId=${this.scalperId}&page=${this.page}&size=${this.size}`).then(res => {
-				console.log(res);
-				this.orderList = (res || {}).data;
-				})
+						  let token = localStorage.getItem('token')
+						uni.request({
+							url: this.$hostUrl + `statistical/threeDaysOrdersDetail?scalperId=${this.scalperId}&page=${this.page}&size=${this.size}`,
+							method: 'GET',
+							header: {
+								Authorization:'Bearer ' + token,
+								'Access-Control-Expose-Headers':'x-total-count'
+								},
+							success: res => {
+								console.log(res);
+								this.orderList = res.data;
+								this.threeDaysTotal = res;
+								const {header} = res;
+								this.threeDaysTotal = (header || {})['x-total-count'];
+								
+							},
+							fail: (err) => {
+								uni.showToast({
+									icon: 'none',
+									duration: 3000,
+									title: `${err.message}`
+								});
+							}
+						});
 					}
+					
+				
 				})
+				
+				
 			},
 			
 			// 获取充值明细
 			searchDepositsDetail: function(e) {
 			   this.showThreeDays = false;
 				https.get(`get`).then(res => {
-					console.log(res);
 					const { id } = (res || {}).data;
 					this.scalperId = id;
 					return res;
@@ -103,7 +125,6 @@
 					if(res.statusCode == 200) {
 						https.get(`deposits?scalperId=${this.scalperId}&page=${this.page}&size=${this.size}`).then(res => {
 						this.orderList = (res || {}).data;
-						console.log(this.orderList);
 				})
 					}
 				})

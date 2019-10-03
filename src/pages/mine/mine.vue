@@ -20,13 +20,11 @@
 				</div>
 				
 				<ul class="list-group">
-					<!-- <li class="list-group-item" v-show="isLoggedInFlag && accountType == 'agent'" v-on:click="goTo('agent-center')">代理中心<span></span>
-					</li>
-					<li class="list-group-item" v-on:click="goTo('online-customer')">在线客服<span></span>
-					</li> -->
                     <li class="list-group-item myCard-group-item" @tap="myAccount"><span>我的账户</span>
                     </li>
 					<li class="list-group-item myCard-group-item" @tap="myCard"><span>我的银行卡</span>
+					</li>
+					<li class="list-group-item myCard-group-item" @tap="contact"><span>联系方式</span>
 					</li>
 					<li class="list-group-item logout-group-item" @tap="logout"><span>退出登录</span>
 					</li>
@@ -101,20 +99,26 @@
           myCard(){
 				// const res = await this.$axios.get('bankcard')
 				// console.log(res);
-				let token = localStorage.getItem('token')
-				uni.request({
-					url: this.$hostUrl + 'bankcard',
-					method: 'GET',
-					header: {Authorization:'Bearer ' + token},
-					success: res => {
-						console.log(res);
-					},
-					fail: (err) => {
-						console.log(err);
-					}
-				});
+				// let token = localStorage.getItem('token')
+				// uni.request({
+				// 	url: this.$hostUrl + 'bankcard',
+				// 	method: 'GET',
+				// 	header: {Authorization:'Bearer ' + token},
+				// 	success: res => {
+				// 		console.log(res);
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log(err);
+				// 	}
+				// });
 				uni.navigateTo({
 					url: '../components/bankCard/bankCard'
+				});
+			},
+			//  联系方式
+			contact: function(){
+				uni.navigateTo({
+					url: '../components/contact/contact'
 				});
 			},
 			logout() {

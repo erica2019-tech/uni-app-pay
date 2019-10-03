@@ -2,7 +2,7 @@
 	<view>
 		<div>
 			<ul class="list-group" v-if="BindCardStatus == 400?false:true">
-				<li class="list-group-item" v-for="(item,index) in cardList" :key="index" @tap="editCard('id')">
+				<li class="list-group-item" v-for="(item,index) in cardList" :key="index">
 					<div class="panel panel-danger">
 					  <div class="panel-body disFl">
 					   <text class="txlf">{{item.accountName}}</text>  
@@ -13,8 +13,8 @@
 						<span>{{item.cardNo}}</span> 
 					  </div>
 					  <div class='btn-container'>
-						<button  class='bank-btn' type="default" size="mini">编辑</button>
-						<button  class='bank-btn' type="warn" size="mini">删除</button>
+						<button  class='bank-btn' type="default" size="mini" @tap="editCard(item.id)">编辑</button>
+						<button  class='bank-btn' type="warn" size="mini" @tap="deleteCard(item.id)">删除</button>
 					  </div>
 					</div>
 				</li>
@@ -86,17 +86,9 @@
 			
 			},
 			editCard(id) {
-				https.get(`bankcard/getOne/${this.cardList[0].id}`).then(res => {
-					console.log(res);
-					const {
-						meta,
-						data
-					} = res
-					if (meta.stateCode == 200) {
-						this.editForm = data
-					}
-
-				})
+				uni.navigateTo({
+					url: `editCard?$id=${id}`
+				});
 			},
 			changeCard(id) {
 				uni.request({
@@ -114,23 +106,21 @@
 					complete: () => {}
 				});
 			},
-			delete(id) {
+			
+			deleteCard(id) {
 				uni.showModal({
 					content: '确认删除吗?',
 					success: function(res) {
 						if (res.confirm) {
-							uni.request({
-								url: this.$hostUrl + `bankcard/${this.cardList[0].id}`,
-								method: 'DELETE',
-								header: {
-									Authorization: 'Bearer ' + localStorage.getItem('token')
-								},
-								success: res => {
-
-								},
-								fail: () => {},
-								complete: () => {}
-							});
+							https.deletes(`bankcard/${id}`).then(res => {
+								if(res.statusCode == 200) {
+									uni.showToast({
+										title: '删除成功',
+										duration: 2000
+									});
+									this.getBankCard();
+								}
+							})
 						}
 					},
 				})
@@ -173,5 +163,14 @@
     .switch-panel-footer {
 		display: flex;
 		justify-content: space-between;
+	}
+	.panel-footer {
+		
+	}
+	.btn-container {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px;
+		
 	}
 </style>
