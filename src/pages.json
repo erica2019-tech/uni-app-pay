@@ -1,17 +1,18 @@
 {
 	"pages": [
 		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+
 		{
 			"path": "pages/switch/switch",
 			"style": {
@@ -82,6 +83,12 @@
             "path" : "pages/components/contact/contact",
             "style" : {
 				"navigationBarTitleText": "联系方式"
+			}
+        }
+        ,{
+            "path" : "pages/components/contact/addContact",
+            "style" : {
+				"navigationBarTitleText": "添加新的联系方式"
 			}
         }
     ],
