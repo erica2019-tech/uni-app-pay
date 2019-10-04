@@ -114,6 +114,7 @@
 <script>
 	import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 	import https from '../../api/https.js';
+	import {queryUnread} from '../../config/common.js';
 	export default {
 		data() {
 			return {
@@ -134,18 +135,10 @@
 			//  默认加载今日排行榜
 			this.loadTodayTop10BountyRank();
 		},
+		onShow: function() {
+			queryUnread();
+		},
 		mounted() {
-			// let inviteCode = option['inviteCode'];
-			// if (inviteCode != null) {
-			// 	window.sessionStorage.setItem('inviteCode', inviteCode);
-			// }
-			// this.loadSystemSetting();
-			// this.getUserAccountInfo();
-			// this.loadTodayTop10BountyRank();
-			//  默认加载今日接单情况
-			// this.loadTodayReceiveOrderSituation();
-			//  默认加载今日排行榜
-			// this.loadTodayTop10BountyRank();
 		},
 		methods: {
 			// loadSystemSetting() {

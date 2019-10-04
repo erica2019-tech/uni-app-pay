@@ -7,6 +7,22 @@ const get = url => {
 			header: {Authorization:'Bearer ' + localStorage.getItem('token')},
 			dataType: 'json',
 			success: res => {
+				console.log(res);
+				const {data} = res;
+				if((data || {}).title == 'invalid token'){
+					console.log("地方的放松放松");
+					uni.navigateTo({
+						url: '../login/login',
+						success: res => {
+							console.log(res);
+							uni.showToast({
+									title: '请重新登录',
+									duration: 2000
+							});
+							
+						},
+					})
+				}
 				resolve(res)
 			},
 			fail: err => {

@@ -29,6 +29,17 @@
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的"
+			// 	"app-plus": {
+			// 		"bounce": "vertical",
+			// 		"titleNView": {
+			// 			"buttons": [{
+			// 				"text": "\ue673",
+			// 				"fontSrc": "/static/font/iconfont.ttf",
+			// 				"fontSize": "22px",
+			// 				"color": "#fff"
+			// 			}]
+			// 		}
+			// 	}
 			}
 		},
 		{
@@ -86,11 +97,29 @@
 			}
         }
         ,{
-            "path" : "pages/components/contact/addContact",
+            "path" : "pages/components/contact/editContact",
             "style" : {
-				"navigationBarTitleText": "添加新的联系方式"
+				"navigationBarTitleText": "编辑联系方式"
 			}
         }
+        ,{
+            "path" : "pages/components/message/message",
+            "style" : {
+				"navigationBarTitleText": "站内信"
+			}
+        }
+        ,{
+            "path" : "pages/components/message/message-read",
+            "style" : {
+				"navigationBarTitleText": "已读信息"
+			}
+        },
+		{
+		    "path" : "pages/components/message/message-unread",
+		    "style" : {
+				"navigationBarTitleText": "未读信息"
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

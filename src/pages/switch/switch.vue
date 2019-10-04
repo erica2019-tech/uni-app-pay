@@ -2,8 +2,7 @@
 	<view class="content">
 		<ul class="list-group" v-if="BindCardStatus == 400? false :true">
 			<li class="list-group-item" v-for="(item,index) in cardList" :key="index"> 
-			<!-- #ifdef @tap="editCard('id')" -->
-			<!-- #endif -->
+
 				<div class="panel panel-danger">
 				  <div class="panel-body ovfl">
 				   <text class="txlf">{{item.accountName}}</text>  
@@ -24,6 +23,7 @@
 <script>
 	import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 	import https from '../../api/https.js';
+	import {queryUnread} from '../../config/common.js'
 	export default {
 		data(){
 			return {
@@ -46,6 +46,7 @@
 		},
 		onShow(){
 			this.getBankCard()   //进入该页面即发送请求
+				queryUnread();
 		},
 		// onLoad(){
 		// 	this.getBankCard()

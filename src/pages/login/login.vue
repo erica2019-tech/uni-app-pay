@@ -61,11 +61,11 @@
 						console.log(res);
 						let {data,statusCode} = res
 						if(statusCode == 200){
-							localStorage.setItem('token', data.idToken)
+							localStorage.setItem('token', data.idToken);
+							uni.switchTab({
+								url: '../home/index'
+							});
 						}
-						uni.switchTab({
-							url: '../home/index'
-						});
 					},
 					fail: (err) => {
 						console.log(err);

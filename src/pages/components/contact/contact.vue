@@ -19,7 +19,7 @@
 			</form>
 		</view>
 		<scroll-view scroll-y="true" class='contact-table'>
-			<table class="table table-sm table-striped">
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>联系方式</th>
@@ -33,11 +33,14 @@
 							<span class="badge">{{contact.type}}</span>
 						</td>
 						<td>
-							<span>{{contact.code}}</span>
+							<div class='contact-code'>{{contact.code}}</div>
 						</td>
 						<td>
-						<button type="default" size="mini" @tap="editContact(contact)">编辑</button>
-						<button  class='delete-btn' type="warn" size="mini" @tap="deleteContact(contact.id)">删除</button>
+							<div class='btn-container'>
+								<button type="default" size="mini" @tap="editContact(contact)">编辑</button>
+								<button  class='delete-btn' type="warn" size="mini" @tap="deleteContact(contact.id)">删除</button>
+							</div>
+							
 						</td>
 					</tr>
 				</tbody>
@@ -60,11 +63,13 @@
 				
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.queryContacts();
+			console.log('shidojfoid');
 		},
 		methods: {
 			queryContacts: function () {
+				console.log('chaxun');
 				https.get('contact/get').then(res => {
 					this.contectList = res.data;
 					console.log(this.contectList);
@@ -101,17 +106,18 @@
 			},
 			
 			deleteContact: function(id) {
+				const self = this;
 				uni.showModal({
 				    title: '是否确定删除这条联系方式?',
 				    success: function (res) {
 				        if (res.confirm) {
 				           https.deletes(`contact/delete/${id}`).then(res=>{
 							   if(res.statusCode == 200) {
-								  this.queryContacts();
 								  uni.showToast({
 								  	title: '删除成功',
 								  	duration: 2000,
 								  });
+								  self.queryContacts();
 							   } else {
 								   uni.showToast({
 								   	title: '删除失败',
@@ -127,7 +133,10 @@
 				});
 			},
 			editContact: function(contact) {
-				uni.navigateTo()
+				console.log(contact);
+				uni.navigateTo({
+					url: `editContact?type=${(contact || {}).type}&code=${(contact || {}).code}&id=${(contact || {}).id}`
+				})
 			}
 		}
 	}
@@ -160,7 +169,22 @@
 		color: white;
 		margin-top: 10px;
 	}
+	.contact-container .table {
+		width: 100%;
+	}
 	.contact-table {
+		
 		margin-top: 10px;
+	}
+
+	.contact-code {
+		overflow: hidden;
+		text-overflow: ellipsis;  
+		width: 20vw;
+		
+	}
+	.btn-container {
+		width: 200px;
+		text-align: center;
 	}
 </style>

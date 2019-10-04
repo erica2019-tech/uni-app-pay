@@ -54,6 +54,7 @@
 <script>
 	import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 	import https from '../../api/https.js';
+	import {queryUnread} from '../../config/common.js'
 	export default {
 		data() {
 			return {
@@ -67,7 +68,8 @@
 			}
 		},
 		onShow(){
-			this.getBankCard()   //进入该页面即发送请求
+			this.getBankCard();   //进入该页面即发送请求
+			queryUnread();
 		},
 		// computed: {
 		//     startDate() {
